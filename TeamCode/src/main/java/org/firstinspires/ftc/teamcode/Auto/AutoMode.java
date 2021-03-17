@@ -33,6 +33,7 @@ import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -61,14 +62,6 @@ public class AutoMode extends LinearOpMode {
     //Motor
     private DcMotor backLeft;
     private DcMotor backRight;
-
-    //Spin motor
-    private DcMotor shooter1;
-    private DcMotor shooter2;
-
-    //Servo Arm
-    private DcMotor arm1;
-    private DcMotor arm2;
 
     //For image recognition
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
@@ -148,6 +141,19 @@ public class AutoMode extends LinearOpMode {
 
     boolean soundFound;
 
+    //Spin motor
+    private DcMotor shooter;
+
+    //Intake system
+    private DcMotor intake;
+
+    //Conveyor belt
+    private DcMotor conveyor_belt;
+
+    //Arm
+    private DcMotor arm;
+    private CRServo claw;
+
     @Override
     public void runOpMode() {
 
@@ -176,7 +182,7 @@ public class AutoMode extends LinearOpMode {
         //Wait for start of the match
         waitForStart();
 
-        //Setup Gyro
+        /*//Setup Gyro
         encoderDrive(DRIVE_SPEED,-12,-12,60.00);
 
         for (int i=0;i<1500000;++i) {
@@ -220,13 +226,26 @@ public class AutoMode extends LinearOpMode {
             gyroTurn(TURN_SPEED,90,false);
             encoderDriveFaster(FASTER_DRIVE_SPEED,15,15,60.00);
             gyroTurnFaster(FASTER_TURN_SPEED,270,true);
-        }
+        }*/
 
 
         //moveTo(130,11.325);
         /*encoderDrive(DRIVE_SPEED,125,125,60.0);
         gyroTurn(TURN_SPEED,85, false);
         encoderDrive(DRIVE_SPEED,5,5, 60.0);*/
+
+        for (int i=0;i<200;++i){
+            arm.setPower(-0.2);
+        }
+
+
+        encoderDrive(DRIVE_SPEED,56.5,56.5, 60.0);
+
+        gyroTurn(TURN_SPEED,100, true);
+
+        while(opModeIsActive()){
+            shooter.setPower(0.54);
+        }
 
         //Shutdown recognition
         if (tfod != null)
@@ -243,20 +262,22 @@ public class AutoMode extends LinearOpMode {
         backRight = hardwareMap.dcMotor.get("backRight");
         backRight.setDirection(DcMotor.Direction.REVERSE);
 
-        /*//Set Spin Motor Name
-        shooter1 = hardwareMap.dcMotor.get("shooter1");
-        shooter1.setDirection(DcMotor.Direction.FORWARD);
+        //Conveyor Belt
+        conveyor_belt = hardwareMap.dcMotor.get("conveyor");
+        conveyor_belt.setDirection(DcMotor.Direction.FORWARD);
 
         //Set Spin Motor Name
-        shooter2 = hardwareMap.dcMotor.get("shooter2");
-        shooter2.setDirection(DcMotor.Direction.REVERSE);*/
+        arm = hardwareMap.dcMotor.get("arm");
+        arm.setDirection(DcMotor.Direction.REVERSE);
 
-        /*//Set Arm Servo Names
-        arm1 = hardwareMap.dcMotor.get("arm1");
-        arm1.setDirection(DcMotor.Direction.REVERSE);
+        claw = hardwareMap.crservo.get("claw");
 
-        arm2 = hardwareMap.dcMotor.get("arm2");
-        arm2.setDirection(DcMotor.Direction.REVERSE);*/
+        //Set Arm Servo Names
+        intake = hardwareMap.dcMotor.get("intake");
+        intake.setDirection(DcMotor.Direction.FORWARD);
+
+        shooter = hardwareMap.dcMotor.get("shooter");
+        shooter.setDirection(DcMotor.Direction.REVERSE);
 
         backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
