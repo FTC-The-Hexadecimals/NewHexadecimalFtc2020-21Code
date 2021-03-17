@@ -239,11 +239,12 @@ public class AutoMode extends LinearOpMode {
         }
 
 
-        encoderDrive(DRIVE_SPEED,56.5,56.5, 60.0);
+        encoderDrive(DRIVE_SPEED,-56.5,-56.5, 60.0);
 
         gyroTurn(TURN_SPEED,100, true);
 
         while(opModeIsActive()){
+            conveyor_belt.setPower(0.5);
             shooter.setPower(0.54);
         }
 
