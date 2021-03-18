@@ -436,8 +436,8 @@ public class BasicOpMode_Iterative extends LinearOpMode
         right_stick_x1 = (float) scaleInput(right_stick_x1);
 
         if(!boost) {
-            left_stick_y1 = left_stick_y1 / 3;
-            right_stick_x1 = right_stick_x1 / 3;
+            left_stick_y1 = left_stick_y1 / 5;
+            right_stick_x1 = right_stick_x1 / 5;
         }
 
         if(gamepad1.b)
@@ -494,27 +494,27 @@ public class BasicOpMode_Iterative extends LinearOpMode
         if(gamepad2.a) {
             shooter_power = !shooter_power;
 
-            telemetry.addData("Pressed A", 0.0);
+            telemetry.addData("Pressed A", shooter_power);
             telemetry.update();
         }
         if(gamepad2.b) {
             conveyor = !conveyor;
-            telemetry.addData("Pressed B", 0.0);
+            telemetry.addData("Pressed B", conveyor);
             telemetry.update();
         }
         if(gamepad2.x) {
             close = !close;
-            telemetry.addData("Pressed X", 0.0);
+            telemetry.addData("Pressed X", close);
             telemetry.update();
         }
         if(gamepad2.y) {
             open = !open;
-            telemetry.addData("Pressed Y", 0.0);
+            telemetry.addData("Pressed Y", open);
             telemetry.update();
         }
 
         if(shooter_power) {
-            shooter.setPower(0.85);
+            shooter.setPower(0.55);
         }
         if(conveyor) {
             conveyor_belt.setPower(0.5);
