@@ -435,10 +435,10 @@ public class BasicOpMode_Iterative extends LinearOpMode
         left_stick_y1 = (float) scaleInput(left_stick_y1);
         right_stick_x1 = (float) scaleInput(right_stick_x1);
 
-        if(!boost) {
+        //if(!boost) {
             left_stick_y1 = left_stick_y1 / 5;
             right_stick_x1 = right_stick_x1 / 5;
-        }
+        //}
 
         if(gamepad1.b)
             boost = !boost;
@@ -513,16 +513,18 @@ public class BasicOpMode_Iterative extends LinearOpMode
             telemetry.update();
         }
 
-        if(shooter_power) {
+        if(shooter_power){
             shooter.setPower(0.55);
         }
+
         if(conveyor) {
             conveyor_belt.setPower(0.5);
         }
 
-        if(close){
+        if(close) {
             claw.setPower(-0.2);
         }
+
         if(open){
             claw.setPower(0.2);
         }
